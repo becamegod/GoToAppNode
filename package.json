@@ -1,0 +1,24 @@
+{
+  "name": "gotoappnode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "firebase-admin": "^11.0.1",
+    "firebase": "^9.9.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/becamegod/GoToAppNode.git"
+  },
+  "author": "Thanh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/becamegod/GoToAppNode/issues"
+  },
+  "homepage": "https://github.com/becamegod/GoToAppNode#readme"
+}
