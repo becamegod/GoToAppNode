@@ -1,6 +1,6 @@
 var admin = require("firebase-admin");
-
 var serviceAccount = require("./gotoapp-357309-firebase-adminsdk-poj6o-c6c2fbb064.json");
+var { v4: uuidv4 } = require('uuid');
 
 // init
 admin.initializeApp({
@@ -31,10 +31,17 @@ ref.on('value', (snapshot) => {
     .catch(error => console.error(error));
 });
 
-const notifyDrivers = (tokens, data) => {  
+const notifyDrivers = (tokens, payload) => {  
+
+  let content = {};
+  content.id = uuidv4();
+  content.channelKey = 'basic_channel';
+  content.title = 'Có khách ở gần bạn';
+  content.body = 'Đã tìm thấy khách hàng đang tìm xe, hãy mau đến đón.';
+  content.payload = payload;
   
   const message = {
-    data: {'content': JSON.stringify(data)},
+    data: {'content': JSON.stringify(content)},
     tokens: tokens,
   };
     
