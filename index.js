@@ -1,6 +1,8 @@
+require('dotenv').config();
 var admin = require("firebase-admin");
-var serviceAccount = require("./gotoapp-357309-firebase-adminsdk-poj6o-c6c2fbb064.json");
-var { v4: uuidv4 } = require('uuid');
+// var serviceAccount2 = require("./gotoapp-357309-firebase-adminsdk-poj6o-c6c2fbb064.json");
+var serviceAccount = JSON.parse(process.env.adminsdk);
+var { v4: uuidv4, v4 } = require('uuid');
 
 // init
 admin.initializeApp({
@@ -38,6 +40,13 @@ const notifyDrivers = (tokens, payload) => {
   content.channelKey = 'basic_channel';
   content.title = 'Có khách ở gần bạn';
   content.body = 'Đã tìm thấy khách hàng đang tìm xe, hãy mau đến đón.';
+  
+  payload.tripId = uuidv4();
+
+  //TODO: ...
+  payload.phone = "";
+  payload.name = "";
+
   content.payload = payload;
   
   const message = {
