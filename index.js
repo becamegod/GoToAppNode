@@ -1,4 +1,3 @@
-var http = require('http');
 require('dotenv').config();
 var admin = require("firebase-admin");
 // var serviceAccount2 = require("./gotoapp-357309-firebase-adminsdk-poj6o-c6c2fbb064.json");
@@ -71,10 +70,5 @@ const notifyDrivers = (tokens, payload) => {
       }
     });
 }
-
-var server = http.createServer(app);
-server.listen(port);
-server.on('error', onError);
-server.on('listening', () => onListening(server, debug));
 
 console.log('server started...');
