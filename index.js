@@ -19,15 +19,16 @@ bookingRef.on('value', (snapshot) => {
     firstTime = false;
     return;
   }
-  const change = snapshot.val();
+  let change = snapshot.val();
   console.log('new booking change: ', change);
 
   // get customer's info
   const fs = admin.firestore();
   fs.collection('users').doc(change.customerId).get()
-    .then(customer => {
+    .then(document => {
 
       // add to "change"
+      const customer = document.data();
       change.customerName = customer.name;
       change.phoneNumber = customer.phoneNumber;
 
@@ -75,6 +76,8 @@ const notifyDrivers = (tokens, payload) => {
     data: { 'content': JSON.stringify(content) },
     tokens: tokens,
   };
+
+  console.log('message to be sent: ', message);
 
   admin.messaging().sendMulticast(message)
     .then((response) => {
