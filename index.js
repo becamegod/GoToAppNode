@@ -10,5 +10,6 @@ admin.initializeApp({
 
 // set up listeners
 require('./listeners/bookingListener');
+require('./listeners/bookingStatusListener');
 
 console.log('server started...');

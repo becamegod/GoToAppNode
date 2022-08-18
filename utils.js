@@ -1,5 +1,6 @@
 const admin = require("firebase-admin");
 const realtime = admin.database();
+const firestore = admin.firestore();
 
 const getAvailableDrivers = (callback) => {
     realtime.ref('availableDrivers').once('value')
@@ -12,4 +13,14 @@ const getAvailableDrivers = (callback) => {
         .catch(error => console.log(error));
 }
 
-module.exports = { getAvailableDrivers }
+const getDriverDeviceToken = (driverId, callback) => {
+    firestore.collection('users').doc(driverId).get()
+        .then(snapshot => {
+            const driver = snapshot.data();
+            if (driver) callback(driver.deviceToken);
+            else console.log("Can't find driver with id " + driverId);
+        })
+        .catch(err => console.error(err));
+}
+
+module.exports = { getAvailableDrivers, getDriverDeviceToken }

@@ -27,6 +27,7 @@ const notifyDrivers = (tokens, payload, type) => {
     payload.type = type;
     content.payload = payload;
 
+    if (!tokens instanceof Array) tokens = [tokens];
     const message = {
         data: { 'content': JSON.stringify(content) },
         tokens: tokens,

@@ -13,7 +13,7 @@ realtime.ref("booking").on('value', (snapshot) => {
         return;
     }
     let change = snapshot.val();
-    console.log('new booking change: ', change);
+    console.log('new booking: ', change);
 
     // get customer's info
     const customerId = change.customerId;
@@ -34,6 +34,7 @@ realtime.ref("booking").on('value', (snapshot) => {
                 /// [FCM]        
                 // create currentTrip
                 currentTripsRef.child(customerId).set('')
+                    .then(() => console.log(`current trip ${customerId} created`))
                     .catch(err => console.error(err));
 
                 // get available drivers
