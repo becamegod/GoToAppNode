@@ -1,3 +1,6 @@
 module.exports = {
-    clientFound: "clientFound",    
+    clientFound: 'clientFound',
+    driverFound: 'driverFound',
+    confirmAcceptation: 'confirmAcceptation',
+    notAvailable: 'notAvailable',
 }
