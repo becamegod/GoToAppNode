@@ -47,7 +47,7 @@ const notifyDrivers = (tokens, payload, type) => {
                 console.log('List of tokens that caused failures: ' + failedTokens);
             }
             else {
-                console.log('message sent')
+                console.log('message sent')                
             }
         });
 }
