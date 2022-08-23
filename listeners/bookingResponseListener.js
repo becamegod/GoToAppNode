@@ -57,6 +57,6 @@ async function messageUser(userID, payload)
 async function getDeviceToken(userID)
 {
     let snapshot = await firestoreDb.collection("users").doc(userID).get();
-    let val = snapshot.val();
-    return val.deviceToken;
+    let data = snapshot.data();
+    return data.deviceToken;
 }
