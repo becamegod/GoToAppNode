@@ -41,7 +41,7 @@ const notifyDrivers = (tokens, payload, type) => {
                 const failedTokens = [];
                 response.responses.forEach((resp, idx) => {
                     if (!resp.success) {
-                        failedTokens.push(registrationTokens[idx]);
+                        failedTokens.push(tokens[idx]);
                     }
                 });
                 console.log('List of tokens that caused failures: ' + failedTokens);
