@@ -1,6 +1,8 @@
 const database = require("firebase-admin/database");
 const firebaseAdmin = require("firebase-admin");
 const firestore = require("firebase-admin/firestore");
+const messenger = require("../messenger");
+const alertType = require("../alertType");
 
 const bookingResponseType = {
     acceptTrip: "acceptTrip",
@@ -20,12 +22,12 @@ db.ref("bookingResponse").on("value", (dataSnapshot) => {
     console.log('bookingRes: ', val);
     
     if (val.keyword == bookingResponseType.acceptTrip) {
-        acceptTrip(val, dataSnapshot.val().customerId);
+        acceptTrip(val, val.customerId);
     }
     else {
-        messageUser(dataSnapshot.val().customerId, {
+        messenger.notifyDrivers(val.customerId, {
             keyword: val.keyword
-        })
+        }, alertType.notAvailable);
     }
 })
 
@@ -33,26 +35,20 @@ async function acceptTrip(val, tripID)
 {
     if (!currentTrips && currentTrips[tripID]) {
         if (currentTrips[tripID] != val.driverID) {
-            messageUser(val.driverID, { message: "Trip is taken" });
+            messenger.notifyDrivers(val.driverID, { message: "Trip is taken" }, alertType.notAvailable);
         }
     }
     else {
         db.ref("currentTrips").update({
             [tripID]: val.driverID
         })
-        messageUser(tripID, {
+        messenger.notifyDrivers(tripID, {
             keyword: bookingResponseType.acceptTrip,
             driverName: val.driverName,
             driverPhone: val.driverPhone,
             driverID: val.driverID
-        });
+        }, alertType.driverFound);
     }
-}
-
-async function messageUser(userID, payload)
-{
-    let token = await getDeviceToken(userID);
-    firebaseAdmin.messaging().sendToDevice(token, { data: payload });
 }
 
 async function getDeviceToken(userID)
