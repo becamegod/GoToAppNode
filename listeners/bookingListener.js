@@ -49,7 +49,7 @@ realtime.ref("booking").on('value', (snapshot) => {
                     },
                     count: 1,
                 })
-                console.log(`first time book at ${element.address}`);
+                console.log(`first time book at ${endPoint.name}`);
             }
             customerRef.update({ frequencies: freqs });
 
