@@ -15,14 +15,15 @@ var currentTrips;
 
 db.ref("currentTrips").on("value", (dataSnapshot) => currentTrips = dataSnapshot.val());
 
-db.ref("bookingResponse").on("child_changed", (dataSnapshot) => {
+db.ref("bookingResponse").on("value", (dataSnapshot) => {
     let val = dataSnapshot.val();
+    console.log('bookingRes: ', val);
     
     if (val.keyword == bookingResponseType.acceptTrip) {
-        acceptTrip(val, dataSnapshot.key);
+        acceptTrip(val, dataSnapshot.val().customerId);
     }
     else {
-        messageUser(dataSnapshot.key, {
+        messageUser(dataSnapshot.val().customerId, {
             keyword: val.keyword
         })
     }
@@ -30,7 +31,7 @@ db.ref("bookingResponse").on("child_changed", (dataSnapshot) => {
 
 async function acceptTrip(val, tripID)
 {
-    if (currentTrips[tripID]) {
+    if (!currentTrips && currentTrips[tripID]) {
         if (currentTrips[tripID] != val.driverID) {
             messageUser(val.driverID, { message: "Trip is taken" });
         }
@@ -56,7 +57,9 @@ async function messageUser(userID, payload)
 
 async function getDeviceToken(userID)
 {
+    console.log('get device token of ', userID);
     let snapshot = await firestoreDb.collection("users").doc(userID).get();
     let data = snapshot.data();
+    console.log('user data ', data);
     return data.deviceToken;
 }
