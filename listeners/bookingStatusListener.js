@@ -31,7 +31,7 @@ realtime.ref('bookingStatus').on('value', (snapshot) => {
                     // send message if there's an accepted driver
                     if (driverId != '') {
                         getDriverDeviceToken(driverId,
-                            token => notifyDrivers(token, {}, type.clientCancel)
+                            token => notifyDrivers([token], {}, type.clientCancel)
                         );
                     }
 
