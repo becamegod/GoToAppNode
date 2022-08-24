@@ -52,7 +52,7 @@ async function acceptTrip(val, tripID)
 async function messageUser(userID, payload)
 {
     let token = await getDeviceToken(userID);
-    firebaseAdmin.messaging().sendToDevice(token, payload);
+    firebaseAdmin.messaging().sendToDevice(token, { data: payload });
 }
 
 async function getDeviceToken(userID)
