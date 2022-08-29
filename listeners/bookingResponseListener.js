@@ -26,6 +26,10 @@ db.ref("bookingResponse").on("value", async (dataSnapshot) => {
     }
     else {
         let token = await getDeviceToken(val.customerId);
+        if (!token) {
+            return;
+        }
+
         if (val.keyword == "pickedUp") {
             val.keyword = "driverArrived"
         }
@@ -51,6 +55,10 @@ async function acceptTrip(val, tripID)
         })
 
         let token = await getDeviceToken(tripID);
+        if (!token) {
+            return;
+        }
+
         messenger.notifyDrivers([token], {
             keyword: bookingResponseType.acceptTrip,
             driverName: val.driverName,
@@ -59,6 +67,10 @@ async function acceptTrip(val, tripID)
         }, alertType.driverFound);
 
         token = await getDeviceToken(val.driverID);
+        if (!token) {
+            return;
+        }
+
         messenger.notifyDrivers([token], { }, alertType.confirmAcceptation);
     }
 }
